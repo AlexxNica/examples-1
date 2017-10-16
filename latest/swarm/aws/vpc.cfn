@@ -6,7 +6,12 @@
         "InfrakitConfigRoot" : {
             "Type" : "String",
             "Description" : "Root URL of the bootscript",
-            "Default" : "https://infrakit.github.io/examples/latest/swarm"
+            "Default" : "https://raw.githubusercontent.com/chungers/examples/demo/latest/swarm"
+        },
+        "Infrakit" : {
+            "Type" : "String",
+            "Description" : "Docker image of Infrakit",
+            "Default" : "infrakit/devbundle:dev"
         },
         "PreinstalledDockerAMI": {
             "Description": "Pick which AMI to use; yes for preinstalled Docker; no to install the latest from get.docker.com",
@@ -42,11 +47,6 @@
             "Type" : "String",
             "Description" : "URL to configure the metadata plugin",
             "Default" : "https://infrakit.github.io/examples/latest/metadata/aws/export.ikt"
-        },
-        "Infrakit" : {
-            "Type" : "String",
-            "Description" : "Docker image of Infrakit",
-            "Default" : "infrakit/devbundle:latest"
         }
     },
 
