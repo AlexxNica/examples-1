@@ -4,13 +4,32 @@ Config for workers on AWS
 
 */}}
 {
+    {{ if var `vars/aws/spot/price` }}
+    "Plugin": "aws/ec2-spot-instance",
+    {{ else }}
     "Plugin": "aws/ec2-instance",
+    {{ end }}
     "Properties": {
         "Tags": {
             "infrakit.clusterName": "{{ var `/cluster/name` }}",
             "infrakit.role" : "workers",
             "Name": "{{ var `/cluster/name` }}-worker"
         },
+	{{/* If we specify the spot price, then use spot instead */}}
+        {{ if var `vars/aws/spot/price` }}
+        "RequestSpotInstancesInput":{
+          "LaunchSpecification": {
+            "ImageId": "{{ var `/local/amiID` }}",
+            "InstanceType": "{{ var `/local/instanceType` }}",
+            "KeyName": "{{ var `/local/keyName` }}",
+            "Placement": {
+              "AvailabilityZone": "{{ var `/local/availabilityZone` }}",
+            }
+          },
+          "SpotPrice":"{{ var `/aws/spotPrice` }}",
+          "Type":"one-time"
+        },
+        {{ else }}
         "RunInstancesInput": {
             "BlockDeviceMappings": null,
             "DisableApiTermination": null,
@@ -47,5 +66,6 @@ Config for workers on AWS
             "SubnetId": null,
             "UserData": null
         }
+        {{ end }}
     }
 }
