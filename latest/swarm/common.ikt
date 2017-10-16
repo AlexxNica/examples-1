@@ -12,6 +12,7 @@ in the vars metadata plugin so that the user-entered values like cluster size ca
 queried later even after the bootstrapping (cloudformation) completes.
 */}}
 {{ if metadata `vars` }}
+{{ var `/cluster/provider`            ( metadata `vars/cluster/provider` ) }}
 {{ var `/cluster/name`                ( metadata `vars/cluster/name` )}}
 {{ var `/cluster/size`                ( metadata `vars/cluster/size` )}}
 {{ var `/infrakit/config/root`        ( metadata `vars/infrakit/config/root` )}}
