@@ -10,9 +10,9 @@ mkdir -p {{$infrakitHome}}/plugins
 # dockerEnvs   {{ $dockerEnvs := `-e INFRAKIT_HOME=/infrakit -e INFRAKIT_PLUGINS_DIR=/infrakit/plugins`}}
 
 
-# Cluster {{ var `/cluster/name` }} size is {{ var `/cluster/size` }}
+# Cluster {{ var `/cluster/name` }} size is {{ var `/cluster/size` }} running on {{ var `/cluster/provider` }}
 
-echo "Cluster {{ var `/cluster/name` }} size is {{ var `/cluster/swarm/size` }}"
+echo "Cluster {{ var `/cluster/name` }} size is {{ var `/cluster/size` }}"
 echo "alias infrakit='docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} infrakit'" >> /root/.bashrc
 
 alias infrakit='docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} infrakit'
