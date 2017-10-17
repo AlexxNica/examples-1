@@ -29,7 +29,7 @@ Config for workers on AWS
           },
           "SpotPrice":"{{ metadata `vars/spot/price` }}",
           "Type":"one-time"
-        },
+        }
         {{ else }}
         "RunInstancesInput": {
             "BlockDeviceMappings": null,
