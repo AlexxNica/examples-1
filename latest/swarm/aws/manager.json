@@ -21,6 +21,21 @@ Instance plugin config for managers on AWS
             "ImageId": "{{ var `/local/amiID` }}",
             "InstanceType": "{{ var `/local/instanceType` }}",
             "KeyName": "{{ var `/local/keyName` }}",
+            "NetworkInterfaces": [
+                {
+                    "AssociatePublicIpAddress": true,
+                    "DeleteOnTermination": true,
+                    "DeviceIndex": 0,
+                    "Groups": [
+                        "{{ var `/local/securityGroupIDs` }}"
+                    ],
+                    "NetworkInterfaceId": null,
+                    "PrivateIpAddress": null,  {{/* will be set by plugin if logical id is known */}}
+                    "PrivateIpAddresses": null,
+                    "SecondaryPrivateIpAddressCount": null,
+                    "SubnetId": "{{ var `/local/subnetID` }}"
+                }
+            ],
             "Placement": {
               "AvailabilityZone": "{{ var `/local/availabilityZone` }}"
             }
