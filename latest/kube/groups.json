@@ -19,9 +19,9 @@ the instances it manages reside.
 {{ $workerSize := sub (metadata `vars/cluster/size`) (len $managerIPs) }}
 {{ $dockerEngine := `unix:///var/run/docker.sock` }} {{/* for this flavor to connect to */}}
 
-{{ $managerInit := cat (metadata `vars/infrakit/config/root`) `/../swarm/manager-init.sh` | nospace }}
-{{ $workerInit := cat (metadata `vars/infrakit/config/root`) `/../swarm/worker-init.sh` | nospace }}
-{{ $myGroups := cat (metadata `vars/infrakit/config/root`) `/../swarm/aws/groups.json` | nospace | include | jsonDecode }}
+{{ $managerInit := cat (var `/infrakit/config/root`) `/../swarm/manager-init.sh` | nospace }}
+{{ $workerInit := cat (var `/infrakit/config/root`) `/../swarm/worker-init.sh` | nospace }}
+{{ $myGroups := cat (var `/infrakit/config/root`) `/../swarm/aws/groups.json` | nospace | include | jsonDecode }}
 
 [
     {
