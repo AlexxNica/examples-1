@@ -24,7 +24,7 @@ Config for workers on AWS
             "InstanceType": "{{ var `/local/instanceType` }}",
             "KeyName": "{{ var `/local/keyName` }}",
             "Placement": {
-              "AvailabilityZone": "{{ var `/local/availabilityZone` }}",
+              "AvailabilityZone": "{{ var `/local/availabilityZone` }}"
             }
           },
           "SpotPrice":"{{ metadata `vars/spot/price` }}",
