@@ -4,13 +4,31 @@ Instance plugin config for managers on AWS
 
 */}}
 {
+    {{ if gt (metadata `vars/spot/price` | default 0.) 0. }}
+    "Plugin": "aws/ec2-spot-instance",
+    {{ else }}
     "Plugin": "aws/ec2-instance",
+    {{ end }}
     "Properties": {
         "Tags": {
             "infrakit.clusterName": "{{ var `/cluster/name` }}",
             "infrakit.role" : "managers",
             "Name": "{{ var `/cluster/name` }}-manager"
         },
+        {{ if gt (metadata `vars/spot/price` | default 0.) 0. }}
+        "RequestSpotInstancesInput":{
+          "LaunchSpecification": {
+            "ImageId": "{{ var `/local/amiID` }}",
+            "InstanceType": "{{ var `/local/instanceType` }}",
+            "KeyName": "{{ var `/local/keyName` }}",
+            "Placement": {
+              "AvailabilityZone": "{{ var `/local/availabilityZone` }}"
+            }
+          },
+          "SpotPrice":"{{ metadata `vars/spot/price` }}",
+          "Type":"one-time"
+        }
+	{{ else }}
         "RunInstancesInput": {
             "BlockDeviceMappings": null,
             "EbsOptimized": null,
@@ -47,5 +65,6 @@ Instance plugin config for managers on AWS
             "SubnetId": null,
             "UserData": null
         }
+	{{ end }}
     }
 }
