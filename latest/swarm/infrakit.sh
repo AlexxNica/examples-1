@@ -57,7 +57,7 @@ docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
        infrakit vars cat spot/price --retry 5s --timeout 1.0h
 
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars change -c sys/message="You entered {{ metadata `vars/spot/price` }}. Thank you. Continuing..."
+       infrakit vars change -c sys/message="Thank you. Continuing..."
 
 {{ else }}
 # Need time for leadership to be determined.
