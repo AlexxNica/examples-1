@@ -24,7 +24,7 @@ the instances it manages reside.
 
 {{/* $myGroups := include (cat `../swarm/` (metadata `vars/cluster/provider` | default `aws`) `/groups.json` | nospace) | jsonDecode */}}
 
-{{$myGroups := cat (var `/infrakit/config/root`) `/../swarm/aws/groups.json` | nospace | include | jsonDecode }}
+{{$myGroups := cat (var `/infrakit/config/root`) `/../swarm/` (metadata `vars/cluster/provider` | default `aws`) `/groups.json` | nospace | include | jsonDecode }}
 
 [
     {
