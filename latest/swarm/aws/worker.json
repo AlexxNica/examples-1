@@ -4,7 +4,8 @@ Config for workers on AWS
 
 */}}
 {
-    {{ if var `vars/aws/spot/price` }}
+    {{/* If we specify the spot price, then use spot instead */}}
+    {{ if gt (metadata `vars/spot/price` | default 0.) 0. }}
     "Plugin": "aws/ec2-spot-instance",
     {{ else }}
     "Plugin": "aws/ec2-instance",
@@ -15,8 +16,8 @@ Config for workers on AWS
             "infrakit.role" : "workers",
             "Name": "{{ var `/cluster/name` }}-worker"
         },
-	{{/* If we specify the spot price, then use spot instead */}}
-        {{ if var `vars/aws/spot/price` }}
+        {{/* If we specify the spot price, then use spot instead */}}
+        {{ if gt (metadata `vars/spot/price` | default 0.) 0. }}
         "RequestSpotInstancesInput":{
           "LaunchSpecification": {
             "ImageId": "{{ var `/local/amiID` }}",
@@ -26,7 +27,7 @@ Config for workers on AWS
               "AvailabilityZone": "{{ var `/local/availabilityZone` }}",
             }
           },
-          "SpotPrice":"{{ var `/aws/spotPrice` }}",
+          "SpotPrice":"{{ metadata `vars/spot/price` }}",
           "Type":"one-time"
         },
         {{ else }}

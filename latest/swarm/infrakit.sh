@@ -31,24 +31,7 @@ docker run -d --restart always --name infrakit -p 24864:24864 {{ $dockerMounts }
        infrakit plugin start manager group vars aws combo swarm time tailer ingress kubernetes \
        --log 5 --log-debug-V 900
 
-{{ if eq (var `/local/swarm/manager/logicalID`) (var `/cluster/swarm/join/ip`) }}
-echo "Block here to demonstrate the blocking metadata and asynchronous user update... Only on first node."
-
-# For fun -- let's write a message for the remote CLI to see
-docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars change -c sys/message="To continue, please enter usr/token using the CLI."
-
-echo "Please enter usr/token via the CLI"
-docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars cat usr/token --retry 5s --timeout 1.0h
-
-docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars change -c sys/message="Thank you. Continuing..."
-
-{{ else }}
-# Need time for leadership to be determined.
-sleep 30
-{{ end }}
+sleep 5
 
 echo "Update the vars in the metadata plugin -- we put this in the vars plugin for queries later."
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
@@ -61,6 +44,25 @@ docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
        infrakit/metadata/configURL={{ var `/infrakit/metadata/configURL` }} \
        provider/image/hasDocker={{ var `/provider/image/hasDocker` }} \
 
+
+{{ if eq (var `/local/swarm/manager/logicalID`) (var `/cluster/swarm/join/ip`) }}
+echo "Block here to demonstrate the blocking metadata and asynchronous user update... Only on first node."
+
+# For fun -- let's write a message for the remote CLI to see
+docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
+       infrakit vars change -c sys/message="To continue, please enter spot/price using the CLI."
+
+echo "Wait for user to remotely enter data"
+docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
+       infrakit vars cat spot/price --retry 5s --timeout 1.0h
+
+docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
+       infrakit vars change -c sys/message="You entered {{ metadata `vars/spot/price` }}. Thank you. Continuing..."
+
+{{ else }}
+# Need time for leadership to be determined.
+sleep 10
+{{ end }}
 
 echo "Rendering a view of the config groups.json for debugging."
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} infrakit template {{var `/infrakit/config/root`}}/groups.json
