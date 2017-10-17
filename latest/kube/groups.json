@@ -16,15 +16,12 @@ the instances it manages reside.
 {{ $swarmLeaderIP := var `/cluster/swarm/join/ip` }}
 {{ $managerIPs := var `/cluster/swarm/manager/ips` }}
 
-{{ $workerSize := sub (var `/cluster/size`) (len $managerIPs) }}
+{{ $workerSize := sub (metadata `vars/cluster/size`) (len $managerIPs) }}
 {{ $dockerEngine := `unix:///var/run/docker.sock` }} {{/* for this flavor to connect to */}}
 
-{{ $managerInit := cat (var `/infrakit/config/root`) `/../swarm/manager-init.sh` | nospace }}
-{{ $workerInit := cat (var `/infrakit/config/root`) `/../swarm/worker-init.sh` | nospace }}
-
-{{/* $myGroups := include (cat `../swarm/` (metadata `vars/cluster/provider` | default `aws`) `/groups.json` | nospace) | jsonDecode */}}
-
-{{$myGroups := cat (var `/infrakit/config/root`) `/../swarm/` (metadata `vars/cluster/provider` | default `aws`) `/groups.json` | nospace | include | jsonDecode }}
+{{ $managerInit := cat (metadata `vars/infrakit/config/root`) `/../swarm/manager-init.sh` | nospace }}
+{{ $workerInit := cat (metadata `vars/infrakit/config/root`) `/../swarm/worker-init.sh` | nospace }}
+{{$myGroups := cat (metadata `vars/infrakit/config/root`) `/../swarm/` (metadata `vars/cluster/provider` | default `aws`) `/groups.json` | nospace | include | jsonDecode }}
 
 [
     {
