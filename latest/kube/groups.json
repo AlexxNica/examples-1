@@ -22,7 +22,7 @@ the instances it manages reside.
 {{ $managerInit := cat (var `/infrakit/config/root`) `/../swarm/manager-init.sh` | nospace }}
 {{ $workerInit := cat (var `/infrakit/config/root`) `/../swarm/worker-init.sh` | nospace }}
 
-{{ $myGroups := include (cat `../swarm/` (var `/cluster/provider`) `/groups.json` | nospace) | jsonDecode }}
+{{ $myGroups := include (cat `../swarm/` (metadata `vars/cluster/provider` | default `aws`) `/groups.json` | nospace) | jsonDecode }}
 
 [
     {
