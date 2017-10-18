@@ -20,10 +20,6 @@ Config for workers on AWS
         {{ if gt (metadata `group/vars/spot/price` | default 0.) 0. }}
         "RequestSpotInstancesInput":{
           "LaunchSpecification": {
-            "IamInstanceProfile": {
-                "Arn": "{{ (var `/local/iam`).InstanceProfileArn }}",
-                "Name": null
-            },
             "ImageId": "{{ var `/local/amiID` }}",
             "InstanceType": "{{ var `/local/instanceType` }}",
             "KeyName": "{{ var `/local/keyName` }}",
