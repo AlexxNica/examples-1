@@ -57,11 +57,6 @@ echo "Wait for user to remotely enter data"
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
        infrakit vars cat spot/price --retry 5s --timeout 1.0h
 
-echo "Unblocked.. updating vars"
-docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars change -c \
-       spot/price={{ var `spot/price` }} \
-
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
        infrakit vars change -c sys/message="Thank you. Continuing..."
 
