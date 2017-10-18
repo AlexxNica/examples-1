@@ -4,7 +4,7 @@ Instance plugin config for managers on AWS
 
 */}}
 {
-    {{ if gt (metadata `vars/spot/price` | default 0.) 0. }}
+    {{ if gt (metadata `group/vars/spot/price` | default 0.) 0. }}
     "Plugin": "aws/ec2-spot-instance",
     {{ else }}
     "Plugin": "aws/ec2-instance",
@@ -15,7 +15,7 @@ Instance plugin config for managers on AWS
             "infrakit.role" : "managers",
             "Name": "{{ var `/cluster/name` }}-manager"
         },
-        {{ if gt (metadata `vars/spot/price` | default 0.) 0. }}
+        {{ if gt (metadata `group/vars/spot/price` | default 0.) 0. }}
         "RequestSpotInstancesInput":{
           "LaunchSpecification": {
             "ImageId": "{{ var `/local/amiID` }}",

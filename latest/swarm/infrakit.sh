@@ -36,7 +36,7 @@ sleep 5
 
 echo "Update the vars in the metadata plugin -- we put this in the vars plugin for queries later."
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars change -c \
+       infrakit group/vars change -c \
        cluster/provider={{ var `/cluster/provider` }} \
        cluster/name={{ var `/cluster/name` }} \
        cluster/size={{ var `/cluster/size` }} \
@@ -51,14 +51,14 @@ echo "Block here to demonstrate the blocking metadata and asynchronous user upda
 
 # For fun -- let's write a message for the remote CLI to see
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars change -c sys/message="To continue, please enter spot/price using the CLI."
+       infrakit group/vars change -c sys/message="To continue, please enter group/vars/spot/price using the CLI."
 
 echo "Wait for user to remotely enter data"
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars cat spot/price --retry 5s --timeout 1.0h
+       infrakit group/vars cat spot/price --retry 5s --timeout 1.0h
 
 docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage}} \
-       infrakit vars change -c sys/message="Thank you. Continuing..."
+       infrakit group/vars change -c sys/message="Thank you. Continuing..."
 
 {{ else }}
 # Need time for leadership to be determined.

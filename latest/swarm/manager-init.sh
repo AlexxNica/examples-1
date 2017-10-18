@@ -6,7 +6,6 @@ set -o xtrace
 
 {{/* Before we call the common boot sequence, set a few variables */}}
 
-{{/* var "/cluster/swarm/initialized" SWARM_INITIALIZED */}}
 {{ var "/cluster/swarm/initialized" (ne 0 INDEX.Sequence) }}
 {{ var "/cluster/swarm/join/ip" INSTANCE_LOGICAL_ID }}
 
