@@ -421,7 +421,7 @@
                             },
                             "mkdir -p /infrakit\n",
                             "docker swarm init\n",
-			    "\n",
+			    "sleep 5\n",
                             "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit ", {"Ref":"Infrakit"}, " ",
                             "infrakit util init --group-id managers --start combo --start swarm --start kubernetes ",
                                " --var /cluster/provider=aws",
