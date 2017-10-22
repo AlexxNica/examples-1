@@ -29,8 +29,7 @@ docker run -d --restart always --name infrakit -p 24864:24864 {{ $dockerMounts }
        -e INFRAKIT_TAILER_PATH=/var/log/cloud-init-output.log \
        -e INFRAKIT_GROUP_POLL_INTERVAL=30s \
        {{$dockerImage}} \
-       infrakit plugin start manager group vars aws combo swarm time tailer ingress kubernetes \
-       --log 5 --log-debug-V 900
+       infrakit plugin start manager group vars aws combo swarm time tailer ingress kubernetes
 
 sleep 5
 
