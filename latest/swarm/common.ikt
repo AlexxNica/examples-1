@@ -1,9 +1,9 @@
 {{/* Var variables */}}
 
-{{ if empty (var "/cluster/provider") }}{{ var "/cluster/provider" "aws" }}{{end}}
+{{ if empty (var "vars/local/docker/engine/labels") }}{{ var "vars/local/docker/engine/labels" (jsonDecode "[]") }}{{end}}
+
 {{ var "/cluster/swarm/join/ip" "172.31.16.101" }}
 {{ var "/cluster/swarm/manager/ips" (tuple "172.31.16.101" "172.31.16.102" "172.31.16.103") }}
-{{ if empty (var "/local/docker/engine/labels") }}{{ var "/local/docker/engine/labels" (jsonDecode "[]") }}{{end}}
 
 {{/*
 Integration with the metadata plugin here.
@@ -21,5 +21,5 @@ queried later even after the bootstrapping (cloudformation) completes.
 {{ var `/provider/image/hasDocker`    ( metadata `vars/provider/image/hasDocker` )}}
 {{ end }}
 
-{{ var `/local/install/docker` (var `/provider/image/hasDocker` | default `no` | eq `no` ) }}
+{{ var `/local/install/docker` (var `vars/provider/image/hasDocker` | default `no` | eq `no` ) }}
 {{ var `/local/docker/user` `ubuntu` }}
