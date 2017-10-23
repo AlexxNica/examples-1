@@ -7,6 +7,7 @@
 {{ var `cluster/size`          5 }}
 {{ var `infrakit/config/root`        `https://raw.githubusercontent.com/chungers/examples/demo/latest/kube` }}
 {{ var `infrakit/metadata/configURL` `https://raw.githubusercontent.com/infrakit/examples/master/latest/metadata/aws/export.ikt` }}
+{{ var `local/docker/engine/labels`  (jsonDecode `[]`) }}
 
 {
     {{/* still needs to be a valid json -- empty struct here */}}
