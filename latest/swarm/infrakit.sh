@@ -9,8 +9,8 @@ mkdir -p {{$infrakitHome}}/plugins
 {{/* $something are local variables inside this template file */}}
 {{ $dockerImage := `infrakit/devbundle:dev` }}
 
-# dockerMounts {{ $dockerMounts := `-v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit }}
-# dockerEnvs   {{ $dockerEnvs := `-e INFRAKIT_HOME=/infrakit -e INFRAKIT_PLUGINS_DIR=/infrakit/plugins`}}
+# dockerMounts {{ $dockerMounts := `-v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit ` }}
+# dockerEnvs   {{ $dockerEnvs := `-e INFRAKIT_HOME=/infrakit -e INFRAKIT_PLUGINS_DIR=/infrakit/plugins `}}
 # {{ $clusterName := var `vars/cluster/name` }}
 # {{ $clusterSize := var `vars/cluster/size` }}
 # {{ $clusterProvider := var `vars/cluster/provider` }}
