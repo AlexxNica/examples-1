@@ -397,7 +397,7 @@
                             "mkdir -p /infrakit\n",
                             "docker swarm init\n",
 			    "sleep 5\n",
-                            "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock ",
+                            "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit ",
                             "-e INFRAKIT_MANAGER_BACKEND=swarm ",
                             "-e INFRAKIT_VARS_TEMPLATE=",{"Ref":"InfrakitConfigRoot"},"/vars.json ",
                             "infrakit/devbundle:dev ",

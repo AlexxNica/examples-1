@@ -9,7 +9,7 @@ mkdir -p {{$infrakitHome}}/plugins
 {{/* $something are local variables inside this template file */}}
 {{ $dockerImage := `infrakit/devbundle:dev` }}
 
-# dockerMounts {{ $dockerMounts := `-v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit` }}
+# dockerMounts {{ $dockerMounts := `-v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit }}
 # dockerEnvs   {{ $dockerEnvs := `-e INFRAKIT_HOME=/infrakit -e INFRAKIT_PLUGINS_DIR=/infrakit/plugins`}}
 # {{ $clusterName := var `vars/cluster/name` }}
 # {{ $clusterSize := var `vars/cluster/size` }}
@@ -24,13 +24,12 @@ alias infrakit='docker run --rm {{$dockerMounts}} {{$dockerEnvs}} {{$dockerImage
 
 echo "Starting up infrakit  ######################"
 docker run -d --restart always --name infrakit -p 24864:24864 {{ $dockerMounts }} {{ $dockerEnvs }} \
-       -v /var/log/:/var/log \
        -e INFRAKIT_AWS_STACKNAME={{ $clusterName }} \
        -e INFRAKIT_AWS_METADATA_POLL_INTERVAL=300s \
        -e INFRAKIT_AWS_METADATA_TEMPLATE_URL=https://raw.githubusercontent.com/infrakit/examples/master/latest/metadata/aws/export.ikt \
        -e INFRAKIT_AWS_NAMESPACE_TAGS=infrakit.scope={{ $clusterName }} \
        -e INFRAKIT_MANAGER_BACKEND=swarm \
-       -e INFRAKIT_VARS_TEMPLATE={{var `vars/cluster/config/root`}}/vars.json \
+       -e INFRAKIT_VARS_TEMPLATE={{var `vars/infrakit/config/root`}}/vars.json \
        -e INFRAKIT_ADVERTISE={{ var `/local/swarm/manager/logicalID` }}:24864 \
        -e INFRAKIT_TAILER_PATH=/var/log/cloud-init-output.log \
        -e INFRAKIT_GROUP_POLL_INTERVAL=30s \
