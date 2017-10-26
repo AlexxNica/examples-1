@@ -7,7 +7,7 @@
 {{ var `cluster/size`          5 }}
 {{ var `infrakit/config/root`  `https://raw.githubusercontent.com/chungers/examples/demo2/latest/swarm` }}
 {{ var `infrakit/docker/image` `infrakit/devbundle:latest` }}
-
+{{ var `spot/price` 0. }}
 {
     "dockerEngineLabels" : []
 }
