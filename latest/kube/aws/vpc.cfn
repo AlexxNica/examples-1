@@ -421,18 +421,21 @@
                             },
                             "mkdir -p /infrakit\n",
                             "docker swarm init\n",
-			    "sleep 5\n",
+                            "sleep 5\n",
                             "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit ", {"Ref":"Infrakit"}, " ",
-                            "infrakit util init --group-id managers --start swarm --start kubernetes --persist",
-                               " --var /cluster/provider=aws",
-                               " --var /cluster/name=", {"Ref":"AWS::StackName"},
-                               " --var /cluster/size=", {"Ref":"ClusterSize"},
-                               " --var /infrakit/config/root=", {"Ref":"InfrakitConfigRoot"},
-                               " --var /infrakit/metadata/configURL=", {"Ref":"MetadataExportTemplate"},
-                               " --var /provider/image/hasDocker=", {
+                            "-e INFRAKIT_MANAGER_BACKEND=swarm ",
+                            "-e INFRAKIT_VARS_TEMPLATE=",{"Ref":"InfrakitConfigRoot"},"/vars.json ",
+                            "infrakit util init --group-id managers --wait 5s --persist",
+                               " --start swarm --start kubernetes",
+                               " --var vars/cluster/provider=aws",
+                               " --var vars/cluster/name=", {"Ref":"AWS::StackName"},
+                               " --var vars/cluster/size=", {"Ref":"ClusterSize"},
+                               " --var vars/infrakit/config/root=", {"Ref":"InfrakitConfigRoot"},
+                               " --var vars/infrakit/metadata/configURL=", {"Ref":"MetadataExportTemplate"},
+                               " --var vars/provider/image/hasDocker=", {
                                        "Fn::FindInMap": ["AMISelector", { "Ref":"PreinstalledDockerAMI" }, "hasDocker"]
                                        },
-                               " --var /infrakit/docker/image=", {"Ref":"Infrakit"}, " ",
+                               " --var vars/infrakit/docker/image=", {"Ref":"Infrakit"}, " ",
                                {"Ref":"InfrakitConfigRoot"}, "/groups.json",
                                " | tee /var/lib/infrakit.boot | sh \n"
                         ]]

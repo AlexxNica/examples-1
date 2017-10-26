@@ -1,0 +1,13 @@
+{{/* short hand here to use the var function to set the values.        */}}
+{{/* this will create a json structure that mirrors the paths used.    */}}
+
+{{/* values here are default -- they can be overridden via --var flags */}}
+{{ var `cluster/provider`     `aws` }}
+{{ var `cluster/name`         `mycluster` }}
+{{ var `cluster/size`          5 }}
+{{ var `infrakit/config/root`  `https://raw.githubusercontent.com/chungers/examples/demo2/latest/swarm` }}
+{{ var `infrakit/docker/image` `infrakit/devbundle:latest` }}
+
+{
+    {{/* still needs to be a valid json -- empty struct here */}}
+}
