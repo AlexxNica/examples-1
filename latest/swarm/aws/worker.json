@@ -5,7 +5,7 @@ Config for workers on AWS
 */}}
 {
     {{/* If we specify the spot price, then use spot instead */}}
-    {{ if gt (metadata `group/vars/spot/price` | default 0.) 0. }}
+    {{ if gt (var `vars/spot/price` | default 0.) 0. }}
     "Plugin": "aws/ec2-spot-instance",
     {{ else }}
     "Plugin": "aws/ec2-instance",
@@ -17,7 +17,7 @@ Config for workers on AWS
             "Name": "{{ var `/cluster/name` }}-worker"
         },
         {{/* If we specify the spot price, then use spot instead */}}
-        {{ if gt (metadata `group/vars/spot/price` | default 0.) 0. }}
+        {{ if gt (var `vars/spot/price` | default 0.) 0. }}
         "RequestSpotInstancesInput":{
           "LaunchSpecification": {
             "ImageId": "{{ var `/local/amiID` }}",
