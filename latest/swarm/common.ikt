@@ -6,18 +6,3 @@
 {{ var `/local/docker/user`               `ubuntu` }}
 
 {{ if empty (var "vars/local/docker/engine/labels") }}{{ var "vars/local/docker/engine/labels" (jsonDecode "[]") }}{{end}}
-
-
-{{/*
-Integration with the metadata plugin here.
-See infrakit.sh when booting up, we store the variables from cloudformation
-in the vars metadata plugin so that the user-entered values like cluster size can be
-queried later even after the bootstrapping (cloudformation) completes.
-*/}}
-{{ if metadata `vars` }}
-{{ var `/cluster/provider`            ( metadata `vars/cluster/provider` ) }}
-{{ var `/cluster/name`                ( metadata `vars/cluster/name` )}}
-{{ var `/cluster/size`                ( metadata `vars/cluster/size` )}}
-{{ var `/infrakit/config/root`        ( metadata `vars/infrakit/config/root` )}}
-
-{{ end }}
