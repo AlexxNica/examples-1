@@ -6,18 +6,7 @@
         "InfrakitConfigRoot" : {
             "Type" : "String",
             "Description" : "Root URL of the bootscript",
-            "Default" : "https://raw.githubusercontent.com/chungers/examples/demo/latest/swarm"
-        },
-        "Infrakit" : {
-            "Type" : "String",
-            "Description" : "Docker image of Infrakit",
-            "Default" : "infrakit/devbundle:dev"
-        },
-        "PreinstalledDockerAMI": {
-            "Description": "Pick which AMI to use; yes for preinstalled Docker; no to install the latest from get.docker.com",
-            "Type": "String",
-            "AllowedValues" : [ "yes","no" ],
-            "Default": "yes"
+            "Default" : "https://raw.githubusercontent.com/chungers/examples/demo2/latest/swarm"
         },
         "ClusterSize": {
             "Description": "Size of the cluster",
@@ -42,11 +31,6 @@
             "Type" : "String",
             "Description" : "Private IP of the bootstrap node",
             "Default" : "172.31.16.101"
-        },
-        "MetadataExportTemplate" : {
-            "Type" : "String",
-            "Description" : "URL to configure the metadata plugin",
-            "Default" : "https://infrakit.github.io/examples/latest/metadata/aws/export.ikt"
         }
     },
 
@@ -406,19 +390,18 @@
                             },
                             "mkdir -p /infrakit\n",
                             "docker swarm init\n",
+			    "sleep 5\n",
                             "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /infrakit:/infrakit ",
+                            "-e INFRAKIT_MANAGER_BACKEND=swarm ",
+                            "-e INFRAKIT_VARS_TEMPLATE=",{"Ref":"InfrakitConfigRoot"},"/vars.json ",
                             {"Ref":"Infrakit"},
-                            "INFRAKIT_MANAGER_BACKEND=swarm ",
-                            "infrakit util init --group-id managers --start combo --start swarm --wait 5s",
-                               " --var /cluster/provider=aws",
-                               " --var /cluster/name=", {"Ref":"AWS::StackName"},
-                               " --var /cluster/size=", {"Ref":"ClusterSize"},
-                               " --var /infrakit/config/root=", {"Ref":"InfrakitConfigRoot"},
-                               " --var /infrakit/metadata/configURL=", {"Ref":"MetadataExportTemplate"},
-                               " --var /provider/image/hasDocker=", {
-                                       "Fn::FindInMap": ["AMISelector", { "Ref":"PreinstalledDockerAMI" }, "hasDocker"]
-                                       },
-                               " --var /infrakit/docker/image=", {"Ref":"Infrakit"}, " ",
+                            "infrakit util init --group-id managers --wait 5s --persist",
+			       " --start swarm",
+                               " --var vars/cluster/provider=aws",
+                               " --var vars/cluster/name=", {"Ref":"AWS::StackName"},
+                               " --var vars/cluster/size=", {"Ref":"ClusterSize"},
+                               " --var vars/infrakit/config/root=", {"Ref":"InfrakitConfigRoot"},
+                               " --var /infrakit/docker/image=infrakit/devbundle:latest ",
                                {"Ref":"InfrakitConfigRoot"}, "/groups.json",
                                " | tee /var/lib/infrakit.boot | sh \n"
                         ]]
