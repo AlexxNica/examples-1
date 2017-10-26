@@ -9,5 +9,5 @@
 {{ var `infrakit/docker/image` `infrakit/devbundle:latest` }}
 
 {
-    {{/* still needs to be a valid json -- empty struct here */}}
+    "dockerEngineLabels" : []
 }

@@ -14,7 +14,7 @@ echo ##### Set up Docker #######################################################
 {{ if var "/local/install/docker" }} {{ include "install-docker.sh" }} {{ end }}
 
 echo #### Label the engine ###########################################################
-{{ $dockerLabels := var "vars/local/docker/engine/labels" }}
+{{ $dockerLabels := var `vars/dockerEngineLabels` }}
 {{ if not (eq 0 (len $dockerLabels)) }}
 mkdir -p /etc/docker
 cat << EOF > /etc/docker/daemon.json

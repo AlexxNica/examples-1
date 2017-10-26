@@ -4,5 +4,3 @@
 {{ var `/cluster/swarm/manager/ips`       (tuple "172.31.16.101" "172.31.16.102" "172.31.16.103") }}
 {{ var `/provider/image/hasDocker`        `no` }}
 {{ var `/local/docker/user`               `ubuntu` }}
-
-{{ if empty (var "vars/local/docker/engine/labels") }}{{ var "vars/local/docker/engine/labels" (jsonDecode "[]") }}{{end}}
